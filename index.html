@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sabor Express - Menú Oficial</title>
+    <style>
+        /* CONFIGURACIÓN DE COLORES Y DISEÑO MÓVIL */
+        :root {
+            --bg-principal: #0d0d0d;   
+            --bg-tarjeta: #1a1a1a;     
+            --color-primario: #f1c40f;  
+            --color-whatsapp: #27ae60;  
+            --texto-blanco: #ffffff;
+            --texto-gris: #aaaaaa;
+            --fuente: 'Segoe UI', Arial, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--fuente);
+        }
+
+        body {
+            background-color: var(--bg-principal);
+            color: var(--texto-blanco);
+            padding-bottom: 110px; 
+        }
+
+        header {
+            background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(13,13,13,1) 100%),
+                        url('https://images.unsplash.com/photo-1571091718767-18b5b1457add?q=80&w=500') center/cover;
+            text-align: center;
+            padding: 45px 20px;
+            border-bottom: 3px solid var(--color-primario);
+        }
+
+        header h1 {
+            font-size: 2.4rem;
+            color: var(--color-primario);
+            text-transform: uppercase;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-shadow: 3px 3px 5px rgba(0,0,0,0.9);
+        }
+
+        header p {
+            font-size: 0.95rem;
+            color: var(--texto-blanco);
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .categorias-nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px;
+            position: sticky;
+            top: 0;
+            background-color: var(--bg-principal);
+            z-index: 10;
+            border-bottom: 1px solid #222;
+            overflow-x: auto;
+        }
+
+        .categorias-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .btn-categoria {
+            background-color: var(--bg-tarjeta);
+            color: var(--texto-blanco);
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: bold;
+            border: 1px solid #333;
+            white-space: nowrap;
+        }
+
+        .contenedor-menu {
+            padding: 15px;
+            max-width: 500px; 
+            margin: 0 auto;
+        }
+
+        .seccion-categoria {
+            margin-bottom: 35px;
+        }
+
+        .titulo-seccion {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: var(--color-primario);
+            text-transform: uppercase;
+            border-left: 5px solid var(--color-primario);
+            padding-left: 10px;
+        }
+
+        .producto-card {
+            background-color: var(--bg-tarjeta);
+            border-radius: 14px;
+            padding: 12px;
+            margin-bottom: 15px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            border: 1px solid #252525;
+        }
+
+        .producto-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 10px;
+            background-color: #2b2b2b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            flex-shrink: 0;
+            border: 1px solid #333;
+        }
+
+        .producto-info {
+            flex-grow: 1;
+        }
+
+        .producto-nombre {
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: var(--texto-blanco);
+            margin-bottom: 4px;
+        }
+
+        .producto-detalles {
+            font-size: 0.75rem;
+            color: var(--texto-gris);
+            margin-bottom: 8px;
+        }
+
+        .producto-precio {
+            font-size: 1.05rem;
+            color: var(--color-primario);
+            font-weight: bold;
+        }
+
+        .controles-cantidad {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #222;
+            padding: 5px 10px;
+            border-radius: 20px;
+            border: 1px solid #444;
+        }
+
+        .btn-cantidad {
+            background: none;
+            border: none;
+            color: var(--color-primario);
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 25px;
+            height: 25px;
+        }
+
+        .numero-cantidad {
+            font-size: 1rem;
+            font-weight: bold;
+            min-width: 15px;
+            text-align: center;
+        }
+
+        .btn-ordenar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--color-whatsapp);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            font-size: 1rem;
+            width: 90%;
+            max-width: 450px;
+            justify-content: center;
+            z-index: 100;
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+            border: none;
+            cursor: pointer;
+        }
+
+        .total-texto {
+            font-size: 0.8rem;
+            opacity: 0.9;
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Sabor Express</h1>
+        <p>¡Tu antojo listo en minutos! 🌭🍔🥤</p>
+    </header>
+
+    <nav class="categorias-nav">
+        <a href="#perros" class="btn-categoria">Perros</a>
+        <a href="#hamburguesas" class="btn-categoria">Hamburguesas</a>
+        <a href="#bebidas" class="btn-categoria">Bebidas</a>
+    </nav>
+
+    <main class="contenedor-menu">
+
+        <!-- SECCIÓN: PERROS CALIENTES (11 Productos) -->
+        <section id="perros" class="seccion-categoria">
+            <h2 class="titulo-seccion">🌭 Perros Calientes</h2>
+            
+            <div class="producto-card" data-nombre="Perro Caliente Sencillo" data-precio="3500">
+                <div class="producto-img">🌭</div>
+                <div class="producto-info">
+                    <div class="producto-nombre">Perro Caliente Sencillo</div>
+                    <div class="producto-detalles">Salchicha, ripio de papa y salsas tradicionales.</div>
+                    <div class="producto-precio">$3.500</div>
+                </div>
+                <div class="controles-cantidad">
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, -1)">-</button>
+                    <span class="numero-cantidad">0</span>
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, 1)">+</button>
+                </div>
+            </div>
+
+            <div class="producto-card" data-nombre="Perro Caliente Gratinado" data-precio="4500">
+                <div class="producto-img">🧀</div>
+                <div class="producto-info">
+                    <div class="producto-nombre">Perro Caliente Gratinado</div>
+                    <div class="producto-detalles">Con una capa dorada de queso fundido.</div>
+                    <div class="producto-precio">$4.500</div>
+                </div>
+                <div class="controles-cantidad">
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, -1)">-</button>
+                    <span class="numero-cantidad">0</span>
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, 1)">+</button>
+                </div>
+            </div>
+
+            <div class="producto-card" data-nombre="Perro Caliente con Tocineta" data-precio="4500">
+                <div class="producto-img">🥓</div>
+                <div class="producto-info">
+                    <div class="producto-nombre">Perro Caliente con Tocineta</div>
+                    <div class="producto-detalles">Acompañado de tocineta crujiente picada.</div>
+                    <div class="producto-precio">$4.500</div>
+                </div>
+                <div class="controles-cantidad">
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, -1)">-</button>
+                    <span class="numero-cantidad">0</span>
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, 1)">+</button>
+                </div>
+            </div>
+
+            <div class="producto-card" data-nombre="Perro Caliente Gratinado + Tocineta" data-precio="5500">
+                <div class="producto-img">🔥</div>
+                <div class="producto-info">
+                    <div class="producto-nombre">Perro Caliente Gratinado + Tocineta</div>
+                    <div class="producto-detalles">El equilibrio perfecto de queso y tocineta.</div>
+                    <div class="producto-precio">$5.500</div>
+                </div>
+                <div class="controles-cantidad">
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, -1)">-</button>
+                    <span class="numero-cantidad">0</span>
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, 1)">+</button>
+                </div>
+            </div>
+
+            <div class="producto-card" data-nombre="Perro Doble Salchicha" data-precio="4500">
+                <div class="producto-img">🚀</div>
+                <div class="producto-info">
+                    <div class="producto-nombre">Perro Doble Salchicha</div>
+                    <div class="producto-detalles">Doble sabor, ideal para los más hambrientos.</div>
+                    <div class="producto-precio">$4.500</div>
+                </div>
+                <div class="controles-cantidad">
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, -1)">-</button>
+                    <span class="numero-cantidad">0</span>
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, 1)">+</button>
+                </div>
+            </div>
+
+            <div class="producto-card" data-nombre="Perro Doble Salchicha Gratinado" data-precio="5500">
+                <div class="producto-img">🧀</div>
+                <div class="producto-info">
+                    <div class="producto-nombre">Perro Doble Salchicha Gratinado</div>
+                    <div class="producto-detalles">Doble salchicha con abundante queso fundido.</div>
+                    <div class="producto-precio">$5.500</div>
+                </div>
+                <div class="controles-cantidad">
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, -1)">-</button>
+                    <span class="numero-cantidad">0</span>
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, 1)">+</button>
+                </div>
+            </div>
+
+            <div class="producto-card" data-nombre="Perro Doble Salchicha + Tocineta" data-precio="5500">
+                <div class="producto-img">🥓</div>
+                <div class="producto-info">
+                    <div class="producto-nombre">Perro Doble Salchicha + Tocineta</div>
+                    <div class="producto-detalles">Doble salchicha con trozos de tocineta premium.</div>
+                    <div class="producto-precio">$5.500</div>
+                </div>
+                <div class="controles-cantidad">
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, -1)">-</button>
+                    <span class="numero-cantidad">0</span>
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, 1)">+</button>
+                </div>
+            </div>
+
+            <div class="producto-card" data-nombre="Perro Doble Salchicha Gratinado + Tocineta" data-precio="6500">
+                <div class="producto-img">👑</div>
+                <div class="producto-info">
+                    <div class="producto-nombre">Perro Doble Salchicha Gratinado + Tocineta</div>
+                    <div class="producto-detalles">¡Completo! Doble carne, queso derretido y tocineta.</div>
+                    <div class="producto-precio">$6.500</div>
+                </div>
+                <div class="controles-cantidad">
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, -1)">-</button>
+                    <span class="numero-cantidad">0</span>
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, 1)">+</button>
+                </div>
+            </div>
+
+            <div class="producto-card" data-nombre="Perro Suizito Sencillo" data-precio="5000">
+                <div class="producto-img">🇨🇭</div>
+                <div class="producto-info">
+                    <div class="producto-nombre">Perro Suizito Sencillo</div>
+                    <div class="producto-detalles">Con deliciosa salchicha suiza artesanal.</div>
+                    <div class="producto-precio">$5.000</div>
+                </div>
+                <div class="controles-cantidad">
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, -1)">-</button>
+                    <span class="numero-cantidad">0</span>
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, 1)">+</button>
+                </div>
+            </div>
+
+            <div class="producto-card" data-nombre="Perro Suizito Gratinado" data-precio="6000">
+                <div class="producto-img">🧀</div>
+                <div class="producto-info">
+                    <div class="producto-nombre">Perro Suizito Gratinado</div>
+                    <div class="producto-detalles">Salchicha suiza cubierta de queso gratinado.</div>
+                    <div class="producto-precio">$6.000</div>
+                </div>
+                <div class="controles-cantidad">
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, -1)">-</button>
+                    <span class="numero-cantidad">0</span>
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, 1)">+</button>
+                </div>
+            </div>
+
+            <div class="producto-card" data-nombre="Perro Suizito Gratinado + Tocineta" data-precio="7.000">
+                <div class="producto-img">🥓</div>
+                <div class="producto-info">
+                    <div class="producto-nombre">Perro Suizito Gratinado + Tocineta</div>
+                    <div class="producto-detalles">Salchicha suiza con el toque crocante y gratinado.</div>
+                    <div class="producto-precio">$7.000</div>
+                </div>
+                <div class="controles-cantidad">
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, -1)">-</button>
+                    <span class="numero-cantidad">0</span>
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, 1)">+</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: HAMBURGUESAS (8 Productos) -->
+        <section id="hamburguesas" class="seccion-categoria">
+            <h2 class="titulo-seccion">🍔 Hamburguesas</h2>
+            
+            <div class="producto-card" data-nombre="Hamburguesa Sencilla" data-precio="5000">
+                <div class="producto-img">🍔</div>
+                <div class="producto-info">
+                    <div class="producto-nombre">Hamburguesa Sencilla</div>
+                    <div class="producto-detalles">Carne artesanal, vegetales frescos y ripio.</div>
+                    <div class="producto-precio">$5.000</div>
+                </div>
+                <div class="controles-cantidad">
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, -1)">-</button>
+                    <span class="numero-cantidad">0</span>
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, 1)">+</button>
+                </div>
+            </div>
+
+            <div class="producto-card" data-nombre="Hamburguesa Gratinada" data-precio="6000">
+                <div class="producto-img">🧀</div>
+                <div class="producto-info">
+                    <div class="producto-nombre">Hamburguesa Gratinada</div>
+                    <div class="producto-detalles">Bañada en espectacular queso fundido.</div>
+                    <div class="producto-precio">$6.000</div>
+                </div>
+                <div class="controles-cantidad">
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, -1)">-</button>
+                    <span class="numero-cantidad">0</span>
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, 1)">+</button>
+                </div>
+            </div>
+
+            <div class="producto-card" data-nombre="Hamburguesa con Tocineta" data-precio="6000">
+                <div class="producto-img">🥓</div>
+                <div class="producto-info">
+                    <div class="producto-nombre">Hamburguesa con Tocineta</div>
+                    <div class="producto-detalles">Con láminas de tocineta ahumada.</div>
+                    <div class="producto-precio">$6.000</div>
+                </div>
+                <div class="controles-cantidad">
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, -1)">-</button>
+                    <span class="numero-cantidad">0</span>
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, 1)">+</button>
+                </div>
+            </div>
+
+            <div class="producto-card" data-nombre="Hamburguesa Gratinada + Tocineta" data-precio="7000">
+                <div class="producto-img">🔥</div>
+                <div class="producto-info">
+                    <div class="producto-nombre">Hamburguesa Gratinada + Tocineta</div>
+                    <div class="producto-detalles">La combinación favorita de la casa.</div>
+                    <div class="producto-precio">$7.000</div>
+                </div>
+                <div class="controles-cantidad">
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, -1)">-</button>
+                    <span class="numero-cantidad">0</span>
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, 1)">+</button>
+                </div>
+            </div>
+
+            <div class="producto-card" data-nombre="Hamburguesa Doble Carne" data-precio="8000">
+                <div class="producto-img">💥</div>
+                <div class="producto-info">
+                    <div class="producto-nombre">Hamburguesa Doble Carne</div>
+                    <div class="producto-detalles">300g de puro sabor artesanal.</div>
+                    <div class="producto-precio">$8.000</div>
+                </div>
+                <div class="controles-cantidad">
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, -1)">-</button>
+                    <span class="numero-cantidad">0</span>
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, 1)">+</button>
+                </div>
+            </div>
+
+            <div class="producto-card" data-nombre="Hamburguesa Doble Carne + Tocineta" data-precio="9000">
+                <div class="producto-img">🥓</div>
+                <div class="producto-info">
+                    <div class="producto-nombre">Hamburguesa Doble Carne + Tocineta</div>
+                    <div class="producto-detalles">Doble carne con extra de tocineta.</div>
+                    <div class="producto-precio">$9.000</div>
+                </div>
+                <div class="controles-cantidad">
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, -1)">-</button>
+                    <span class="numero-cantidad">0</span>
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, 1)">+</button>
+                </div>
+            </div>
+
+            <div class="producto-card" data-nombre="Hamburguesa Doble Carne + Gratinada" data-precio="9000">
+                <div class="producto-img">🧀</div>
+                <div class="producto-info">
+                    <div class="producto-nombre">Hamburguesa Doble Carne + Gratinada</div>
+                    <div class="producto-detalles">Doble carne sepultada en queso gratinado.</div>
+                    <div class="producto-precio">$9.000</div>
+                </div>
+                <div class="controles-cantidad">
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, -1)">-</button>
+                    <span class="numero-cantidad">0</span>
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, 1)">+</button>
+                </div>
+            </div>
+
+            <div class="producto-card" data-nombre="Hamburguesa Doble Carne + Tocineta y Gratinada" data-precio="10000">
+                <div class="producto-img">👑</div>
+                <div class="producto-info">
+                    <div class="producto-nombre">Hamburguesa Doble Carne + Tocineta y Gratinada</div>
+                    <div class="producto-detalles">¡La reina del menú! Doble de todo para campeones.</div>
+                    <div class="producto-precio">$10.000</div>
+                </div>
+                <div class="controles-cantidad">
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, -1)">-</button>
+                    <span class="numero-cantidad">0</span>
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, 1)">+</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: BEBIDAS (Totalmente personalizada) -->
+        <section id="bebidas" class="seccion-categoria">
+            <h2 class="titulo-seccion">🥤 Bebidas Frías</h2>
+
+            <!-- LÍNEA COCA-COLA -->
+            <div class="producto-card" data-nombre="Coca-Cola 250ml" data-precio="2500">
+                <div class="producto-img">🔴</div>
+                <div class="producto-info">
+                    <div class="producto-nombre">Coca-Cola 250ml</div>
+                    <div class="producto-detalles">Presentación personal pequeña.</div>
+                    <div class="producto-precio">$2.500</div>
+                </div>
+                <div class="controles-cantidad">
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, -1)">-</button>
+                    <span class="numero-cantidad">0</span>
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, 1)">+</button>
+                </div>
+            </div>
+
+            <div class="producto-card" data-nombre="Coca-Cola 400ml" data-precio="4000">
+                <div class="producto-img">🥤</div>
+                <div class="producto-info">
+                    <div class="producto-nombre">Coca-Cola 400ml</div>
+                    <div class="producto-detalles">Tamaño personal mediano ideal.</div>
+                    <div class="producto-precio">$4.000</div>
+                </div>
+                <div class="controles-cantidad">
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, -1)">-</button>
+                    <span class="numero-cantidad">0</span>
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, 1)">+</button>
+                </div>
+            </div>
+
+            <div class="producto-card" data-nombre="Coca-Cola 1.5 Litros" data-precio="7500">
+                <div class="producto-img">🍾</div>
+                <div class="producto-info">
+                    <div class="producto-nombre">Coca-Cola 1.5 Litros</div>
+                    <div class="producto-detalles">Tamaño ideal para compartir combos.</div>
+                    <div class="producto-precio">$7.500</div>
+                </div>
+                <div class="controles-cantidad">
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, -1)">-</button>
+                    <span class="numero-cantidad">0</span>
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, 1)">+</button>
+                </div>
+            </div>
+
+            <!-- POSTOBÓN & PEPSI 250 -->
+            <div class="producto-card" data-nombre="Postobón o Pepsi 250ml" data-precio="2000">
+                <div class="producto-img">🍊</div>
+                <div class="producto-info">
+                    <div class="producto-nombre">Postobón o Pepsi 250ml</div>
+                    <div class="producto-detalles">Sabores: Uva, Manzana, Naranjada o Pepsi.</div>
+                    <div class="producto-precio">$2.000</div>
+                </div>
+                <div class="controles-cantidad">
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, -1)">-</button>
+                    <span class="numero-cantidad">0</span>
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, 1)">+</button>
+                </div>
+            </div>
+
+            <!-- POSTOBÓN & PEPSI 400 -->
+            <div class="producto-card" data-nombre="Postobón o Pepsi 400ml" data-precio="3000">
+                <div class="producto-img">🔵</div>
+                <div class="producto-info">
+                    <div class="producto-nombre">Postobón o Pepsi 400ml</div>
+                    <div class="producto-detalles">Sabores: Uva, Manzana, Naranjada o Pepsi.</div>
+                    <div class="producto-precio">$3.000</div>
+                </div>
+                <div class="controles-cantidad">
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, -1)">-</button>
+                    <span class="numero-cantidad">0</span>
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, 1)">+</button>
+                </div>
+            </div>
+
+            <!-- POSTOBÓN & PEPSI 1.7 -->
+            <div class="producto-card" data-nombre="Postobón o Pepsi 1.7 Litros" data-precio="6000">
+                <div class="producto-img">👪</div>
+                <div class="producto-info">
+                    <div class="producto-nombre">Postobón o Pepsi 1.7 Litros</div>
+                    <div class="producto-detalles">Sabores: Uva, Manzana, Naranjada o Pepsi.</div>
+                    <div class="producto-precio">$6.000</div>
+                </div>
+                <div class="controles-cantidad">
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, -1)">-</button>
+                    <span class="numero-cantidad">0</span>
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, 1)">+</button>
+                </div>
+            </div>
+
+            <!-- JUGOS HIT -->
+            <div class="producto-card" data-nombre="Jugo Hit 400ml" data-precio="3000">
+                <div class="producto-img">🧃</div>
+                <div class="producto-info">
+                    <div class="producto-nombre">Jugo Hit 400ml</div>
+                    <div class="producto-detalles">Delicioso jugo de fruta en envase personal.</div>
+                    <div class="producto-precio">$3.000</div>
+                </div>
+                <div class="controles-cantidad">
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, -1)">-</button>
+                    <span class="numero-cantidad">0</span>
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, 1)">+</button>
+                </div>
+            </div>
+
+            <div class="producto-card" data-nombre="Jugo Hit 1 Litro" data-precio="6500">
+                <div class="producto-img">🥭</div>
+                <div class="producto-info">
+                    <div class="producto-nombre">Jugo Hit 1 Litro</div>
+                    <div class="producto-detalles">Presentación grande de fruta familiar.</div>
+                    <div class="producto-precio">$6.500</div>
+                </div>
+                <div class="controles-cantidad">
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, -1)">-</button>
+                    <span class="numero-cantidad">0</span>
+                    <button class="btn-cantidad" onclick="cambiarCantidad(this, 1)">+</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- BOTÓN INTERACTIVO -->
+    <button class="btn-ordenar" onclick="enviarPedido()">
+        <span>📱 Enviar mi Pedido por WhatsApp</span>
+        <span class="total-texto" id="total-pedido">Total: $0</span>
+    </button>
+
+    <!-- PROGRAMACIÓN JAVASCRIPT -->
+    <script>
+        // 1. CONFIGURA TU NÚMERO DE WHATSAPP AQUÍ (Sin espacios ni signos +)
+        const MI_WHATSAPP = "573000000000"; 
+
+        let totalGeneral = 0;
+
+        function cambiarCantidad(boton, cambio) {
+            const contenedorControles = boton.parentElement;
+            const elementoCantidad = contenedorControles.querySelector('.numero-cantidad');
+            
+            let cantidadActual = parseInt(elementoCantidad.innerText);
+            cantidadActual += cambio;
+
+            if (cantidadActual < 0) return;
+
+            elementoCantidad.innerText = cantidadActual;
+            actualizarTotal();
+        }
+
+        function actualizarTotal() {
+            totalGeneral = 0;
+            const productos = document.querySelectorAll('.producto-card');
+
+            productos.forEach(producto => {
+                const cantidad = parseInt(producto.querySelector('.numero-cantidad').innerText);
+                const precio = parseInt(producto.getAttribute('data-precio'));
+                totalGeneral += (cantidad * precio);
+            });
+
+            document.getElementById('total-pedido').innerText = "Total: $" + totalGeneral.toLocaleString('es-CO');
+        }
+
+        function enviarPedido() {
+            if (totalGeneral === 0) {
+                alert("Por favor, selecciona al menos un producto para tu pedido.");
+                return;
+            }
+
+            const productos = document.querySelectorAll('.producto-card');
+            let mensaje = "⚡ *NUEVO PEDIDO - SABOR EXPRESS* ⚡\n\n";
+            mensaje += "Hola, me gustaría ordenar lo siguiente:\n";
+            mensaje += "--------------------------------------\n";
+
+            productos.forEach(producto => {
+                const cantidad = parseInt(producto.querySelector('.numero-cantidad').innerText);
+                if (cantidad > 0) {
+                    const nombre = producto.getAttribute('data-nombre');
+                    const precio = parseInt(producto.getAttribute('data-precio'));
+                    const subtotal = cantidad * precio;
+                    mensaje += `• (${cantidad}x) ${nombre} - $${subtotal.toLocaleString('es-CO')}\n`;
+                }
+            });
+
+            mensaje += "--------------------------------------\n";
+            mensaje += `*TOTAL A PAGAR:* $${totalGeneral.toLocaleString('es-CO')}\n\n`;
+            mensaje += "¡Quedo atento a la confirmación!";
+
+            const mensajeEncriptado = encodeURIComponent(mensaje);
+            const enlaceWhatsApp = `https://wa.me/${MI_WHATSAPP}?text=${mensajeEncriptado}`;
+
+            window.open(enlaceWhatsApp, '_blank');
+        }
+    </script>
+
+</body>
+</html>
